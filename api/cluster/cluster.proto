@@ -13,6 +13,8 @@ message Cluster {
     LEAST_REQUEST = 1;
     RANDOM = 3;
     MAGLEV = 5;
+    WEIGHTED_ROUND_ROBIN = 6;     // NEW: Weighted round robin
+    STICKY_ROUND_ROBIN = 7;       // NEW: Sticky session affinity
   }
 
   core.ApiStatus api_status = 128;
