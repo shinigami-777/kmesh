@@ -1,5 +1,8 @@
 FROM ghcr.io/kmesh-net/kmesh-build:latest AS builder
 
+ENV GOPROXY=https://goproxy.cn,https://goproxy.io,https://proxy.golang.org,direct
+ENV GOSUMDB=sum.golang.org
+
 WORKDIR /kmesh
 COPY . .
 

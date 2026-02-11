@@ -52,22 +52,26 @@ void   cluster__cluster__free_unpacked
   assert(message->base.descriptor == &cluster__cluster__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCEnumValue cluster__cluster__lb_policy__enum_values_by_number[4] =
+static const ProtobufCEnumValue cluster__cluster__lb_policy__enum_values_by_number[6] =
 {
   { "ROUND_ROBIN", "CLUSTER__CLUSTER__LB_POLICY__ROUND_ROBIN", 0 },
   { "LEAST_REQUEST", "CLUSTER__CLUSTER__LB_POLICY__LEAST_REQUEST", 1 },
   { "RANDOM", "CLUSTER__CLUSTER__LB_POLICY__RANDOM", 3 },
   { "MAGLEV", "CLUSTER__CLUSTER__LB_POLICY__MAGLEV", 5 },
+  { "WEIGHTED_ROUND_ROBIN", "CLUSTER__CLUSTER__LB_POLICY__WEIGHTED_ROUND_ROBIN", 6 },
+  { "STICKY_ROUND_ROBIN", "CLUSTER__CLUSTER__LB_POLICY__STICKY_ROUND_ROBIN", 7 },
 };
 static const ProtobufCIntRange cluster__cluster__lb_policy__value_ranges[] = {
-{0, 0},{3, 2},{5, 3},{0, 4}
+{0, 0},{3, 2},{5, 3},{0, 6}
 };
-static const ProtobufCEnumValueIndex cluster__cluster__lb_policy__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex cluster__cluster__lb_policy__enum_values_by_name[6] =
 {
   { "LEAST_REQUEST", 1 },
   { "MAGLEV", 3 },
   { "RANDOM", 2 },
   { "ROUND_ROBIN", 0 },
+  { "STICKY_ROUND_ROBIN", 5 },
+  { "WEIGHTED_ROUND_ROBIN", 4 },
 };
 const ProtobufCEnumDescriptor cluster__cluster__lb_policy__descriptor =
 {
@@ -76,9 +80,9 @@ const ProtobufCEnumDescriptor cluster__cluster__lb_policy__descriptor =
   "LbPolicy",
   "Cluster__Cluster__LbPolicy",
   "cluster",
-  4,
+  6,
   cluster__cluster__lb_policy__enum_values_by_number,
-  4,
+  6,
   cluster__cluster__lb_policy__enum_values_by_name,
   3,
   cluster__cluster__lb_policy__value_ranges,
