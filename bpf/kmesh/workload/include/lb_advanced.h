@@ -69,4 +69,4 @@ struct {
     __uint(map_flags, BPF_F_NO_PREALLOC);
 } map_of_service_lb_state SEC(".maps");
 
-#endif // __LB_ADVANCED_H__
+#endif

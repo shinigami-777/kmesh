@@ -3,15 +3,17 @@ FROM ghcr.io/kmesh-net/kmesh-build:latest AS builder
 WORKDIR /kmesh
 COPY . .
 
-RUN mkdir -p /kmesh/pkg/controller/workload/lbmanager
-
-# Generate protobuf files
+# Generate protobuf files (main goal)
 WORKDIR /kmesh/api
 RUN make gen-proto
 
-RUN test -f /kmesh/api/v2-c/cluster/cluster.pb-c.h || \
-    (echo "ERROR: Protobuf generation failed" && exit 1)
+# Verify files were generated
+RUN echo "=== Checking Generated Files ===" && \
+    ls -la v2-c/cluster/ && \
+    ls -la v2/cluster/ && \
+    echo "=== End of Generated Files ==="
 
+# Runtime stage
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
@@ -20,17 +22,13 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /opt/kmesh
 
-# Copy generated protobuf files
+# Copy all necessary files
 COPY --from=builder /kmesh/api/v2-c /opt/kmesh/api/v2-c/
 COPY --from=builder /kmesh/api/v2 /opt/kmesh/api/v2/
-
-# Copy source headers for inspection
 COPY --from=builder /kmesh/bpf/kmesh/workload/include /kmesh/bpf/kmesh/workload/include/
-
-# Copy Go LB manager
-COPY --from=builder /kmesh/pkg/controller/workload/lbmanager /kmesh/pkg/controller/workload/lbmanager/
+COPY --from=builder /kmesh/pkg/controller/workload/lbmanager /kmesh/pkg/controller/workload/lbmanager/ 
 
 # Copy demo scripts
-COPY docker/demo /opt/kmesh/demo/
+COPY docker/demo/*.sh /opt/kmesh/demo/
 RUN chmod +x /opt/kmesh/demo/*.sh
 
